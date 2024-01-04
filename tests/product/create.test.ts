@@ -5,6 +5,9 @@ import { AppDataSource } from "../../src/config";
 import createJwtMock from "mock-jwks";
 import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
+import path from "path";
+
+const TIMEOUT_INTERVEL = 100000;
 
 describe("[POST] /api/product/create", () => {
     let connection: DataSource;
@@ -40,92 +43,129 @@ describe("[POST] /api/product/create", () => {
     };
 
     describe("Given all fields", () => {
-        it("should returns the 201 status code if all ok", async () => {
-            // arrange
-            // const user = {
-            //     fullName: "Jon Doe",
-            //     email: "jon.doe@gmail.com",
-            //     password: "secret@password",
-            //     role: Role.ADMIN,
-            // };
+        it(
+            "should returns the 201 status code if all ok",
+            async () => {
+                // arrange
+                const adminAccessToken = jwt.token({
+                    userId: "1",
+                    role: Role.ADMIN,
+                });
 
-            //// const userRepository = connection.getRepository(User);
-            // // await userRepository.save(user);
+                const testPathfile = path.resolve(
+                    __dirname,
+                    "../utils/img/test.jpeg",
+                );
 
-            const adminAccessToken = jwt.token({
-                userId: "1",
-                role: Role.ADMIN,
-            });
+                // act
+                const createProductResponse = await request(app)
+                    .post(`/api/product/create`)
+                    .set("Cookie", [`accessToken=${adminAccessToken}`])
+                    .field("name", "pizza")
+                    .field("description", "This is pizza food from heart.")
+                    .field("discount", 10)
+                    .field("size", "small")
+                    .field("price", 200)
+                    .field("availability", true)
+                    .field("category", "pizza")
+                    .field("preparationTimeInMinute", 50)
+                    .field("currency", "doller")
+                    .field("ingredients", [`protein`, `vitamine`])
+                    .attach("image", testPathfile);
 
-            // act
-            const createProductResponse = await request(app)
-                .post(`/api/product/create`)
-                .set("Cookie", [`accessToken=${adminAccessToken}`])
-                .send(product);
+                // assert
+                expect(createProductResponse.statusCode).toBe(201);
+            },
+            TIMEOUT_INTERVEL,
+        );
 
-            // assert
-            expect(createProductResponse.statusCode).toBe(201);
-        });
+        it(
+            "should return json data",
+            async () => {
+                // arrange
+                // const user = {
+                //     fullName: "Jon Doe",
+                //     email: "jon.doe@gmail.com",
+                //     password: "secret@password",
+                //     role: Role.ADMIN,
+                // };
 
-        it("should return json data", async () => {
-            // arrange
-            // const user = {
-            //     fullName: "Jon Doe",
-            //     email: "jon.doe@gmail.com",
-            //     password: "secret@password",
-            //     role: Role.ADMIN,
-            // };
+                // const userRepository = connection.getRepository(User);
+                // await userRepository.save(user);
 
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
+                const adminAccessToken = jwt.token({
+                    userId: "1",
+                    role: Role.ADMIN,
+                });
 
-            const adminAccessToken = jwt.token({
-                userId: "1",
-                role: Role.ADMIN,
-            });
+                // act
+                const testPathfile = path.resolve(
+                    __dirname,
+                    "../utils/img/test.jpeg",
+                );
 
-            // act
-            const createProductResponse = await request(app)
-                .post(`/api/product/create`)
-                .set("Cookie", [`accessToken=${adminAccessToken}`])
-                .send(product);
+                const createProductResponse = await request(app)
+                    .post(`/api/product/create`)
+                    .set("Cookie", [`accessToken=${adminAccessToken}`])
+                    .field("name", "pizza")
+                    .field("description", "This is pizza food from heart.")
+                    .field("discount", 10)
+                    .field("size", "small")
+                    .field("price", 200)
+                    .field("availability", true)
+                    .field("category", "pizza")
+                    .field("preparationTimeInMinute", 50)
+                    .field("currency", "doller")
+                    .field("ingredients", [`protein`, `vitamine`])
+                    .attach("image", testPathfile);
 
-            // assert
-            expect(
-                (createProductResponse.headers as Record<string, string>)[
-                    "content-type"
-                ],
-            ).toEqual(expect.stringContaining("json"));
-        });
+                // assert
+                expect(
+                    (createProductResponse.headers as Record<string, string>)[
+                        "content-type"
+                    ],
+                ).toEqual(expect.stringContaining("json"));
+            },
+            TIMEOUT_INTERVEL,
+        );
 
-        it("should persist product in database", async () => {
-            // arrange
-            // const user = {
-            //     fullName: "Jon Doe",
-            //     email: "jon.doe@gmail.com",
-            //     password: "secret@password",
-            //     role: Role.ADMIN,
-            // };
+        it(
+            "should persist product in database",
+            async () => {
+                // arrange
+                const adminAccessToken = jwt.token({
+                    userId: "1",
+                    role: Role.ADMIN,
+                });
 
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
+                const testPathfile = path.resolve(
+                    __dirname,
+                    "../utils/img/test.jpeg",
+                );
 
-            const adminAccessToken = jwt.token({
-                userId: "1",
-                role: Role.ADMIN,
-            });
+                // act
+                await request(app)
+                    .post(`/api/product/create`)
+                    .set("Cookie", [`accessToken=${adminAccessToken}`])
+                    .field("name", "pizza")
+                    .field("description", "This is pizza food from heart.")
+                    .field("discount", 10)
+                    .field("size", "small")
+                    .field("price", 200)
+                    .field("availability", true)
+                    .field("category", "pizza")
+                    .field("preparationTimeInMinute", 50)
+                    .field("currency", "doller")
+                    .field("ingredients", [`protein`, `vitamine`])
+                    .attach("image", testPathfile);
 
-            // act
-            const createProductResponse = await request(app)
-                .post(`/api/product/create`)
-                .set("Cookie", [`accessToken=${adminAccessToken}`])
-                .send(product);
-
-            // assert
-            const productRepository = connection.getRepository(Product);
-            const products = await productRepository.find();
-            expect(products).toHaveLength(1);
-        });
+                // assert
+                const productRepository = connection.getRepository(Product);
+                const products = await productRepository.find();
+                expect(products).toHaveLength(1);
+            },
+            TIMEOUT_INTERVEL,
+        );
     });
 
     describe("Some fields are missing", () => {
