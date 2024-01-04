@@ -13,6 +13,7 @@ export const {
     DB_PASSWORD,
     DB_PORT,
     DB_NAME,
+    API_BASE_URL,
 } = process.env;
 
 export { default as logger } from "./logger";
