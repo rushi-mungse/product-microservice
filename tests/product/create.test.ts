@@ -82,17 +82,6 @@ describe("[POST] /api/product/create", () => {
         it(
             "should return json data",
             async () => {
-                // arrange
-                // const user = {
-                //     fullName: "Jon Doe",
-                //     email: "jon.doe@gmail.com",
-                //     password: "secret@password",
-                //     role: Role.ADMIN,
-                // };
-
-                // const userRepository = connection.getRepository(User);
-                // await userRepository.save(user);
-
                 const adminAccessToken = jwt.token({
                     userId: "1",
                     role: Role.ADMIN,
@@ -171,16 +160,6 @@ describe("[POST] /api/product/create", () => {
     describe("Some fields are missing", () => {
         it("should returns the 400 status code if name is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -198,16 +177,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if description is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -225,16 +194,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if size is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -252,16 +211,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if price is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -279,16 +228,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if availability is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -306,16 +245,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if preparation time is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -333,16 +262,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if category is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
@@ -360,16 +279,6 @@ describe("[POST] /api/product/create", () => {
 
         it("should returns the 400 status code if ingredients is missing", async () => {
             // arrange
-            const user = {
-                fullName: "Jon Doe",
-                email: "jon.doe@gmail.com",
-                password: "secret@password",
-                role: Role.ADMIN,
-            };
-
-            // const userRepository = connection.getRepository(User);
-            // await userRepository.save(user);
-
             const adminAccessToken = jwt.token({
                 userId: "1",
                 role: Role.ADMIN,
