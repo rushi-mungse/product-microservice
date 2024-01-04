@@ -10,6 +10,8 @@ import { ICreateProductRequest } from "../types";
 import { ProductService } from "../services";
 import { AppDataSource } from "../config";
 import { Product } from "../entity";
+import { checkAccessToken, hasPermission, upload } from "../middlewares";
+import { Role } from "../constants";
 
 const router = express.Router();
 
@@ -19,7 +21,12 @@ const productController = new ProductController(productService);
 
 router.post(
     "/create",
-    [createProductDataValidator as unknown as RequestHandler],
+    [
+        checkAccessToken,
+        upload.single("image"),
+        hasPermission([Role.ADMIN]),
+        createProductDataValidator as unknown as RequestHandler,
+    ],
     (req: Request, res: Response, next: NextFunction) =>
         productController.create(
             req as ICreateProductRequest,
