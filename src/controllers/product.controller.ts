@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import { ICreateProductRequest } from "../types";
 import { validationResult } from "express-validator";
 import { ProductService } from "../services";
+import createHttpError from "http-errors";
 
 class ProductController {
     constructor(private productService: ProductService) {}
@@ -15,8 +16,8 @@ class ProductController {
         if (!result.isEmpty())
             return res.status(400).json({ error: result.array() });
 
-        // const file = req.file;
-        // if (!file) return next(createHttpError(400, "Product image not found"));
+        const file = req.file;
+        if (!file) return next(createHttpError(400, "Product image not found"));
 
         const {
             name,
@@ -32,18 +33,22 @@ class ProductController {
         } = req.body;
 
         try {
+            const uploadFileResponse = await this.productService.uploadFile(
+                file.path,
+            );
+
             const product = await this.productService.create({
                 name,
                 description,
-                imageUrl: "product-image-url",
-                price: Number(price),
                 size,
-                discount: Number(discount),
                 currency,
-                availability: Boolean(availability),
                 ingredients,
-                preparationTimeInMinute: Number(preparationTimeInMinute),
                 category,
+                imageUrl: uploadFileResponse.url,
+                price: Number(price),
+                discount: Number(discount),
+                availability: Boolean(availability),
+                preparationTimeInMinute: Number(preparationTimeInMinute),
             });
 
             res.status(201).json({
