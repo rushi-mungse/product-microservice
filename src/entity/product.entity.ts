@@ -6,8 +6,8 @@ import {
     CreateDateColumn,
 } from "typeorm";
 
-@Entity()
-export default class User {
+@Entity({ name: "products" })
+export default class Product {
     @PrimaryGeneratedColumn()
     id: number;
 
