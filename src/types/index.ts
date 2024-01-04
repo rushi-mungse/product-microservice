@@ -28,3 +28,19 @@ export interface IProduct {
     ingredients: string;
     imageUrl: string;
 }
+
+export interface ICategory {
+    name: string;
+}
+
+export interface ICreateCategoryRequest extends Request {
+    body: {
+        name: string;
+    };
+}
+
+export interface IUpdateCategoryRequest extends Request {
+    body: {
+        name: string;
+    };
+}
