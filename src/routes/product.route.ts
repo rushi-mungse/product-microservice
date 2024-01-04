@@ -1,4 +1,31 @@
-import express from "express";
+import express, {
+    NextFunction,
+    Request,
+    RequestHandler,
+    Response,
+} from "express";
+import { ProductController } from "../controllers";
+import { createProductDataValidator } from "../validator";
+import { ICreateProductRequest } from "../types";
+import { ProductService } from "../services";
+import { AppDataSource } from "../config";
+import { Product } from "../entity";
+
 const router = express.Router();
+
+const productRepository = AppDataSource.getRepository(Product);
+const productService = new ProductService(productRepository);
+const productController = new ProductController(productService);
+
+router.post(
+    "/create",
+    [createProductDataValidator as unknown as RequestHandler],
+    (req: Request, res: Response, next: NextFunction) =>
+        productController.create(
+            req as ICreateProductRequest,
+            res,
+            next,
+        ) as unknown as RequestHandler,
+);
 
 export default router;
