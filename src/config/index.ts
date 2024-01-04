@@ -14,6 +14,7 @@ export const {
     DB_PORT,
     DB_NAME,
     API_BASE_URL,
+    JWKS_URI,
 } = process.env;
 
 export { default as logger } from "./logger";
