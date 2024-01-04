@@ -18,9 +18,6 @@ export default class User {
     description: string;
 
     @Column()
-    price: number;
-
-    @Column()
     currency: string;
 
     @Column("text")
@@ -33,10 +30,10 @@ export default class User {
     preparationTimeInMinute: number;
 
     @Column()
-    disscount: number;
+    discount: number;
 
-    @Column("text", { array: true })
-    ingredients: string[];
+    @Column("text")
+    ingredients: string;
 
     @UpdateDateColumn()
     updatedAt: number;
@@ -46,5 +43,5 @@ export default class User {
 }
 
 // size SizeEntity
+// price
 // category string fk
-// ingredients string[]
