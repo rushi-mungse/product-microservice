@@ -7,7 +7,7 @@ import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
 import path from "path";
 
-const TIMEOUT_INTERVEL = 100000;
+const TIMEOUT_INTERVEL = 10000;
 
 describe("[POST] /api/product/create", () => {
     let connection: DataSource;
@@ -144,7 +144,7 @@ describe("[POST] /api/product/create", () => {
                 );
 
                 // act
-                await request(app)
+                const response = await request(app)
                     .post(`/api/product/create`)
                     .set("Cookie", [`accessToken=${adminAccessToken}`])
                     .field("name", "pizza")
