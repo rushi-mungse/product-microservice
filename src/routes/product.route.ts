@@ -12,11 +12,15 @@ import { AppDataSource } from "../config";
 import { Product } from "../entity";
 import { checkAccessToken, hasPermission, upload } from "../middlewares";
 import { Role } from "../constants";
+import { uploadOnCloudinary } from "../config";
 
 const router = express.Router();
 
 const productRepository = AppDataSource.getRepository(Product);
-const productService = new ProductService(productRepository);
+const productService = new ProductService(
+    productRepository,
+    uploadOnCloudinary,
+);
 const productController = new ProductController(productService);
 
 router.post(
