@@ -6,6 +6,8 @@ import { ICreateCategoryRequest, IUpdateCategoryRequest } from "../types";
 import { AppDataSource } from "../config";
 import { Category } from "../entity";
 import { CategoryService } from "../services";
+import { checkAccessToken, hasPermission } from "../middlewares";
+import { Role } from "../constants";
 const router = express.Router();
 
 const categoryRepository = AppDataSource.getRepository(Category);
@@ -20,20 +22,29 @@ router.get(
 
 router.put(
     "/",
-    createCategoryDataValidator,
+    [
+        checkAccessToken,
+        hasPermission([Role.ADMIN]),
+        createCategoryDataValidator as unknown as RequestHandler,
+    ],
     (req: ICreateCategoryRequest, res: Response, next: NextFunction) =>
         categoryController.create(req, res, next) as unknown as RequestHandler,
 );
 
 router.delete(
     "/:categoryId",
+    [checkAccessToken, hasPermission([Role.ADMIN])],
     (req: Request, res: Response, next: NextFunction) =>
         categoryController.delete(req, res, next) as unknown as RequestHandler,
 );
 
 router.post(
     "/:categoryId",
-    createCategoryDataValidator,
+    [
+        checkAccessToken,
+        hasPermission([Role.ADMIN]),
+        createCategoryDataValidator as unknown as RequestHandler,
+    ],
     (req: IUpdateCategoryRequest, res: Response, next: NextFunction) =>
         categoryController.update(req, res, next) as unknown as RequestHandler,
 );
