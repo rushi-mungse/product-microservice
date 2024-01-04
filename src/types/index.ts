@@ -44,3 +44,17 @@ export interface IUpdateCategoryRequest extends Request {
         name: string;
     };
 }
+
+export interface IAuthCookie {
+    accessToken: string;
+    refreshToken: string;
+}
+
+export interface IPayload {
+    userId: string;
+    role: string;
+    tokenId?: string;
+}
+export interface IAuthRequest extends Request {
+    auth: IPayload;
+}
