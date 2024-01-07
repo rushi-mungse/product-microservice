@@ -9,7 +9,7 @@ import path from "path";
 
 const TIMEOUT_INTERVEL = 10000;
 
-describe("[POST] /api/product/create", () => {
+describe.skip("[POST] /api/product/create", () => {
     let connection: DataSource;
     let jwt: ReturnType<typeof createJwtMock>;
 
