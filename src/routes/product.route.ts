@@ -46,6 +46,13 @@ router.get(
         productController.getAll(req, res, next) as unknown as RequestHandler,
 );
 
+router.get(
+    "/:productId",
+    [checkAccessToken, hasPermission([Role.ADMIN])],
+    (req: Request, res: Response, next: NextFunction) =>
+        productController.get(req, res, next) as unknown as RequestHandler,
+);
+
 router.delete(
     "/:productId",
     [checkAccessToken, hasPermission([Role.ADMIN])],
