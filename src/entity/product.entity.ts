@@ -35,13 +35,18 @@ export default class Product {
     @Column("text")
     ingredients: string;
 
+    @Column({ nullable: true })
+    size: string;
+
+    @Column({ nullable: true })
+    price: number;
+
+    @Column({ nullable: true })
+    category: string;
+
     @UpdateDateColumn()
     updatedAt: number;
 
     @CreateDateColumn()
     createdAt: number;
 }
-
-// size SizeEntity
-// price
-// category string fk
