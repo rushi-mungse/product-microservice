@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ICreateProductRequest } from "../types";
 import { validationResult } from "express-validator";
 import { ProductService } from "../services";
@@ -58,6 +58,36 @@ class ProductController {
         } catch (error) {
             next(error);
         }
+    }
+
+    async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const products = await this.productService.getProducts();
+            return res.json({
+                products,
+                message: "all product featched successfully.",
+            });
+        } catch (error) {
+            return next(error);
+        }
+    }
+
+    async delete(req: Request, res: Response, next: NextFunction) {
+        const productId = req.params.productId;
+        if (isNaN(Number(productId)))
+            return next(createHttpError(400, "Invalid product id!"));
+
+        try {
+            const product = await this.productService.findProductById(
+                Number(productId),
+            );
+            if (!product)
+                return next(createHttpError(400, "Product not found!"));
+            await this.productService.deleteProduct(Number(productId));
+        } catch (error) {
+            return next(error);
+        }
+        res.json({ productId, message: "Product deleted successfully." });
     }
 }
 
