@@ -9,7 +9,7 @@ import path from "path";
 
 const TIMEOUT_INTERVEL = 10000;
 
-describe.skip("[POST] /api/product/create", () => {
+describe("[POST] /api/product/create", () => {
     let connection: DataSource;
     let jwt: ReturnType<typeof createJwtMock>;
 
@@ -42,7 +42,7 @@ describe.skip("[POST] /api/product/create", () => {
         ingredients: ["protien", "vitamine"],
     };
 
-    describe("Given all fields", () => {
+    describe.skip("Given all fields", () => {
         it(
             "should returns the 201 status code if all ok",
             async () => {
