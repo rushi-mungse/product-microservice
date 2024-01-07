@@ -89,6 +89,23 @@ class ProductController {
         }
         res.json({ productId, message: "Product deleted successfully." });
     }
+
+    async get(req: Request, res: Response, next: NextFunction) {
+        const productId = req.params.productId;
+        if (isNaN(Number(productId)))
+            return next(createHttpError(400, "Invalid product Id"));
+
+        try {
+            const product = await this.productService.findProductById(
+                Number(productId),
+            );
+            if (!product) next(createHttpError(400, "Product not found!"));
+
+            return res.json({ product });
+        } catch (error) {
+            return next(error);
+        }
+    }
 }
 
 export default ProductController;
