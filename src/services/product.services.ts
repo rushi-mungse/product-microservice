@@ -16,6 +16,20 @@ class ProductService {
     async uploadFile(localFilePath: string) {
         return await this.uploadeOnCloudinary(localFilePath);
     }
+
+    async getProducts() {
+        return await this.productRepository.find();
+    }
+
+    async deleteProduct(productId: number) {
+        await this.productRepository.delete(productId);
+    }
+
+    async findProductById(productId: number) {
+        return await this.productRepository.findOne({
+            where: { id: productId },
+        });
+    }
 }
 
 export default ProductService;
