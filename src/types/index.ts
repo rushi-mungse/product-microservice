@@ -4,12 +4,12 @@ export interface ICreateProductRequest extends Request {
     body: {
         name: string;
         description: string;
-        price: number;
+        price: string;
         size: string;
         currency: string;
-        availability: boolean;
-        preparationTimeInMinute: number;
-        discount: number;
+        availability: string;
+        preparationTimeInMinute: string;
+        discount: string;
         category: string;
         ingredients: string;
     };
