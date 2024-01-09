@@ -37,7 +37,7 @@ class ProductController {
                 file.path,
             );
 
-            const product = await this.productService.create({
+            const product = await this.productService.save({
                 name,
                 description,
                 size,
@@ -105,6 +105,71 @@ class ProductController {
         } catch (error) {
             return next(error);
         }
+    }
+
+    async update(
+        req: ICreateProductRequest,
+        res: Response,
+        next: NextFunction,
+    ) {
+        const productId = req.params.productId;
+        if (isNaN(Number(productId)))
+            return next(createHttpError(400, "Invalid product id!"));
+
+        const result = validationResult(req);
+        if (!result.isEmpty())
+            return res.status(400).json({ error: result.array() });
+
+        const file = req.file;
+
+        const {
+            name,
+            description,
+            price,
+            size,
+            currency,
+            availability,
+            preparationTimeInMinute,
+            discount,
+            category,
+            ingredients,
+        } = req.body;
+
+        try {
+            const product = await this.productService.findProductById(
+                Number(productId),
+            );
+            if (!product)
+                return next(createHttpError(400, "Product not found!"));
+
+            product.name = name;
+            product.description = description;
+            product.availability = Boolean(availability);
+            product.category = category;
+            product.currency = currency;
+            product.discount = discount;
+            product.size = size;
+            product.preparationTimeInMinute = preparationTimeInMinute;
+            product.ingredients = ingredients;
+            product.price = price;
+
+            if (file) {
+                const uploadFileResponse = await this.productService.uploadFile(
+                    file.path,
+                );
+                product.imageUrl = uploadFileResponse.url;
+            }
+
+            await this.productService.save(product);
+            return res.json({
+                product,
+                message: "Product updated successfully.",
+            });
+        } catch (error) {
+            next(error);
+        }
+
+        return res.json({ ok: true });
     }
 }
 

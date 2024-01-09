@@ -9,7 +9,7 @@ class ProductService {
         private uploadeOnCloudinary: (T: string) => Promise<UploadApiResponse>,
     ) {}
 
-    async create(product: IProduct) {
+    async save(product: IProduct) {
         return await this.productRepository.save(product);
     }
 

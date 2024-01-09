@@ -58,4 +58,20 @@ router.delete(
         productController.delete(req, res, next) as unknown as RequestHandler,
 );
 
+router.post(
+    "/update/:productId",
+    [
+        checkAccessToken,
+        upload.single("image"),
+        hasPermission([Role.ADMIN]),
+        createProductDataValidator as unknown as RequestHandler,
+    ],
+    (req: Request, res: Response, next: NextFunction) =>
+        productController.update(
+            req as ICreateProductRequest,
+            res,
+            next,
+        ) as unknown as RequestHandler,
+);
+
 export default router;
