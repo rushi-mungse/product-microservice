@@ -72,7 +72,7 @@ describe("[POST] /api/product/create", () => {
                     .field("currency", "doller")
                     .field("ingredients", [`protein`, `vitamine`])
                     .attach("image", testPathfile);
-
+                console.log(createProductResponse.body);
                 // assert
                 expect(createProductResponse.statusCode).toBe(201);
             },
