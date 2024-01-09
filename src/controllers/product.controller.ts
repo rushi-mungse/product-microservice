@@ -144,7 +144,8 @@ class ProductController {
 
             product.name = name;
             product.description = description;
-            product.availability = Boolean(availability);
+            product.availability =
+                String(availability) === "true" ? true : false;
             product.category = category;
             product.currency = currency;
             product.discount = discount;
