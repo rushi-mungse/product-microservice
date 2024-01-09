@@ -33,9 +33,9 @@ class ProductController {
         } = req.body;
 
         try {
-            // const uploadFileResponse = await this.productService.uploadFile(
-            //     file.path,
-            // );
+            const uploadFileResponse = await this.productService.uploadFile(
+                file.path,
+            );
 
             const product = await this.productService.save({
                 name,
@@ -44,8 +44,8 @@ class ProductController {
                 currency,
                 ingredients,
                 category,
-                // imageUrl: uploadFileResponse.url,
-                imageUrl: file.path,
+                imageUrl: uploadFileResponse.url,
+                // imageUrl: file.path,
                 price: Number(price),
                 discount: Number(discount),
                 availability: String(availability) === "true" ? true : false,
@@ -156,11 +156,11 @@ class ProductController {
             product.price = price;
 
             if (file) {
-                // const uploadFileResponse = await this.productService.uploadFile(
-                //     file.path,
-                // );
-                // product.imageUrl = uploadFileResponse.url;
-                product.imageUrl = file.path;
+                const uploadFileResponse = await this.productService.uploadFile(
+                    file.path,
+                );
+                product.imageUrl = uploadFileResponse.url;
+                // product.imageUrl = file.path;
             }
 
             await this.productService.save(product);
