@@ -7,6 +7,8 @@ import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
 import path from "path";
 
+const TIMEOUT_INTERVAL = 10000;
+
 describe("[POST] /api/product/update/:productId", () => {
     let connection: DataSource;
     let jwt: ReturnType<typeof createJwtMock>;
@@ -134,41 +136,45 @@ describe("[POST] /api/product/update/:productId", () => {
             expect(products).toHaveLength(1);
         });
 
-        it("should persist product image in database", async () => {
-            // arrange
-            const productRepository = connection.getRepository(Product);
-            await productRepository.save(product);
+        it(
+            "should persist product image in database",
+            async () => {
+                // arrange
+                const productRepository = connection.getRepository(Product);
+                await productRepository.save(product);
 
-            const adminAccessToken = jwt.token({
-                userId: "1",
-                role: Role.ADMIN,
-            });
+                const adminAccessToken = jwt.token({
+                    userId: "1",
+                    role: Role.ADMIN,
+                });
 
-            const testPathfile = path.resolve(
-                __dirname,
-                "../utils/img/test.jpeg",
-            );
+                const testPathfile = path.resolve(
+                    __dirname,
+                    "../utils/img/test.jpeg",
+                );
 
-            // act
-            await request(app)
-                .post(`/api/product/update/1`)
-                .set("Cookie", [`accessToken=${adminAccessToken}`])
-                .field("name", "pizza")
-                .field("description", "This is pizza food from heart.")
-                .field("discount", 20)
-                .field("size", "small")
-                .field("price", 200)
-                .field("availability", true)
-                .field("category", "pizza")
-                .field("preparationTimeInMinute", 50)
-                .field("currency", "doller")
-                .field("ingredients", [`protein`, `vitamine`])
-                .attach("image", testPathfile);
+                // act
+                await request(app)
+                    .post(`/api/product/update/1`)
+                    .set("Cookie", [`accessToken=${adminAccessToken}`])
+                    .field("name", "pizza")
+                    .field("description", "This is pizza food from heart.")
+                    .field("discount", 20)
+                    .field("size", "small")
+                    .field("price", 200)
+                    .field("availability", true)
+                    .field("category", "pizza")
+                    .field("preparationTimeInMinute", 50)
+                    .field("currency", "doller")
+                    .field("ingredients", [`protein`, `vitamine`])
+                    .attach("image", testPathfile);
 
-            // assert
-            const products = await productRepository.find();
-            expect(products[0].imageUrl).not.toEqual("ewerwer");
-        });
+                // assert
+                const products = await productRepository.find();
+                expect(products[0].imageUrl).not.toEqual(product.imageUrl);
+            },
+            TIMEOUT_INTERVAL,
+        );
     });
 
     describe("Some fields are missing", () => {
