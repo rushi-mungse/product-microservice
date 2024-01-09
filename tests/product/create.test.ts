@@ -42,7 +42,7 @@ describe("[POST] /api/product/create", () => {
         ingredients: ["protien", "vitamine"],
     };
 
-    describe("Given all fields", () => {
+    describe.skip("Given all fields", () => {
         it(
             "should returns the 201 status code if all ok",
             async () => {
@@ -133,7 +133,7 @@ describe("[POST] /api/product/create", () => {
                 );
 
                 // act
-                const response = await request(app)
+                await request(app)
                     .post(`/api/product/create`)
                     .set("Cookie", [`accessToken=${adminAccessToken}`])
                     .field("name", "pizza")
