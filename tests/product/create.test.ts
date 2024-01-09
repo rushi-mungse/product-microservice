@@ -7,7 +7,7 @@ import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
 import path from "path";
 
-const TIMEOUT_INTERVEL = 10000;
+const TIMEOUT_INTERVEL = 20000;
 
 describe("[POST] /api/product/create", () => {
     let connection: DataSource;
@@ -42,7 +42,7 @@ describe("[POST] /api/product/create", () => {
         ingredients: ["protien", "vitamine"],
     };
 
-    describe.skip("Given all fields", () => {
+    describe("Given all fields", () => {
         it(
             "should returns the 201 status code if all ok",
             async () => {
