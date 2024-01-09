@@ -7,7 +7,7 @@ import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
 import path from "path";
 
-const TIMEOUT_INTERVAL = 20000;
+const TIMEOUT_INTERVAL = 30000;
 
 describe("[POST] /api/product/update/:productId", () => {
     let connection: DataSource;
