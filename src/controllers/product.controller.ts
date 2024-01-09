@@ -47,7 +47,7 @@ class ProductController {
                 imageUrl: uploadFileResponse.url,
                 price: Number(price),
                 discount: Number(discount),
-                availability: Boolean(availability),
+                availability: String(availability) === "true" ? true : false,
                 preparationTimeInMinute: Number(preparationTimeInMinute),
             });
 
