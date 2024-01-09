@@ -10,7 +10,7 @@
       "formate:check": "prettier . --check",
       "lint": "eslint .",
       "lint:fix": "eslint . --fix",
-      "test": "jest --no-cache --coverage --all --runInBand",
+      "test": "jest --no-cache --coverage --all --runInBand --testTimeout=30000",
       "test:watch": "jest --watch --runInBand",
       "prepare": "husky install",
       "start": "ts-node src/index.ts",

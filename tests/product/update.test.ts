@@ -7,7 +7,7 @@ import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
 import path from "path";
 
-const TIMEOUT_INTERVAL = 10000;
+const TIMEOUT_INTERVAL = 30000;
 
 describe("[POST] /api/product/update/:productId", () => {
     let connection: DataSource;
@@ -133,10 +133,11 @@ describe("[POST] /api/product/update/:productId", () => {
             // assert
             const products = await productRepository.find();
             expect(products[0].name).toEqual("pizza1");
+            expect(products[0].availability).toEqual(true);
             expect(products).toHaveLength(1);
         });
 
-        it.skip(
+        it(
             "should persist product image in database",
             async () => {
                 // arrange

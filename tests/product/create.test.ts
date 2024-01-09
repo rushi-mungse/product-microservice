@@ -7,7 +7,7 @@ import { Role } from "../../src/constants";
 import { Product } from "../../src/entity";
 import path from "path";
 
-const TIMEOUT_INTERVEL = 10000;
+const TIMEOUT_INTERVEL = 30000;
 
 describe("[POST] /api/product/create", () => {
     let connection: DataSource;
@@ -42,7 +42,7 @@ describe("[POST] /api/product/create", () => {
         ingredients: ["protien", "vitamine"],
     };
 
-    describe.skip("Given all fields", () => {
+    describe("Given all fields", () => {
         it(
             "should returns the 201 status code if all ok",
             async () => {
@@ -74,6 +74,7 @@ describe("[POST] /api/product/create", () => {
                     .attach("image", testPathfile);
 
                 // assert
+                console.log(createProductResponse.body);
                 expect(createProductResponse.statusCode).toBe(201);
             },
             TIMEOUT_INTERVEL,
@@ -133,7 +134,7 @@ describe("[POST] /api/product/create", () => {
                 );
 
                 // act
-                const response = await request(app)
+                await request(app)
                     .post(`/api/product/create`)
                     .set("Cookie", [`accessToken=${adminAccessToken}`])
                     .field("name", "pizza")

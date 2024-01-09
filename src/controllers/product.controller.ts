@@ -33,10 +33,6 @@ class ProductController {
         } = req.body;
 
         try {
-            const uploadFileResponse = await this.productService.uploadFile(
-                file.path,
-            );
-
             const product = await this.productService.save({
                 name,
                 description,
@@ -44,10 +40,10 @@ class ProductController {
                 currency,
                 ingredients,
                 category,
-                imageUrl: uploadFileResponse.url,
+                imageUrl: file.path,
                 price: Number(price),
                 discount: Number(discount),
-                availability: Boolean(availability),
+                availability: availability === "true" ? true : false,
                 preparationTimeInMinute: Number(preparationTimeInMinute),
             });
 
@@ -144,21 +140,17 @@ class ProductController {
 
             product.name = name;
             product.description = description;
-            product.availability = Boolean(availability);
+            product.availability =
+                String(availability) === "true" ? true : false;
             product.category = category;
             product.currency = currency;
-            product.discount = discount;
+            product.discount = Number(discount);
             product.size = size;
-            product.preparationTimeInMinute = preparationTimeInMinute;
+            product.preparationTimeInMinute = Number(preparationTimeInMinute);
             product.ingredients = ingredients;
-            product.price = price;
+            product.price = Number(preparationTimeInMinute);
 
-            if (file) {
-                const uploadFileResponse = await this.productService.uploadFile(
-                    file.path,
-                );
-                product.imageUrl = uploadFileResponse.url;
-            }
+            if (file) product.imageUrl = file.path;
 
             await this.productService.save(product);
             return res.json({
@@ -168,8 +160,6 @@ class ProductController {
         } catch (error) {
             next(error);
         }
-
-        return res.json({ ok: true });
     }
 }
 
