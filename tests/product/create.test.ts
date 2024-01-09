@@ -42,7 +42,7 @@ describe("[POST] /api/product/create", () => {
         ingredients: ["protien", "vitamine"],
     };
 
-    describe.skip("Given all fields", () => {
+    describe("Given all fields", () => {
         it(
             "should returns the 201 status code if all ok",
             async () => {

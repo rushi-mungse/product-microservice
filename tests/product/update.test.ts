@@ -136,7 +136,7 @@ describe("[POST] /api/product/update/:productId", () => {
             expect(products).toHaveLength(1);
         });
 
-        it.skip(
+        it(
             "should persist product image in database",
             async () => {
                 // arrange
