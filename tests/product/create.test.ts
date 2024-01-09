@@ -74,6 +74,7 @@ describe("[POST] /api/product/create", () => {
                     .attach("image", testPathfile);
 
                 // assert
+                console.log(createProductResponse.body);
                 expect(createProductResponse.statusCode).toBe(201);
             },
             TIMEOUT_INTERVEL,
